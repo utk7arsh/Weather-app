@@ -38,7 +38,15 @@ const HomePage = () => {
     const url = `https://api.weatherbit.io/v2.0/current?city=${city}&key=02525ccb316248bba62eb2e25911b795`;
     try {
       const res = await fetch(url);
+      if (res.status === 204) {
+        throw new Error('City not found');
+      }
+
       const weatherData = await res.json();
+      if (city.trim() === '') {
+        setError('Please enter a city');
+        throw new Error('Empty Input');
+      }
       if (!weatherData.data || weatherData.data.length === 0) {
         throw new Error('Failed to fetch weather data');
       }
@@ -50,8 +58,8 @@ const HomePage = () => {
     }
   };
 
+
   return (
-    <>
     <div>
       <TitleWrapper>
         <Title>Weather App</Title>
@@ -78,7 +86,6 @@ const HomePage = () => {
         </WeatherCard>
       )}
     </div>
-    </>
   );
 };
 
