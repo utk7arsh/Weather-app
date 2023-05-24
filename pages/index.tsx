@@ -11,6 +11,9 @@ const InputWrapper = styled.div`
   padding-bottom: 50px;
 `;
 
+const Form = styled.form`
+`;
+
 const WeatherCard = styled.div`
   margin: 10px;
 `;
@@ -36,7 +39,7 @@ const WeatherContainer = styled.div`
   align-items: center;
   margin: 0 auto;
   margin-top: 20px;
-  padding: 80px;
+  padding: 75px;
   padding-top: 60px;
   border-radius: 15px;
   background-color: #0057FF;
@@ -50,26 +53,22 @@ const WeatherContainer = styled.div`
   }
 `;
 
-const ForecastContainer = styled.div`
+const ForecastGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+  gap: 20px;
+  justify-items: center;
+  align-items: center;
+  margin-top: 20px;
+`;
+
+const ForecastContainer = styled(WeatherContainer)`
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin: 0 auto;
-  margin-top: 20px;
-  padding: 80px;
-  padding-top: 60px;
-  border-radius: 15px;
-  background-color: #0057FF;
-  color: white;
-  width: 300px;
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-  transition: 0.3s;
-  font-family: 'Open Sans', sans-serif;
-  &:hover {
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.7);
-  }
-  `;
+  background-color: #3DD0FF;
+`;
+
+
 
 const WeatherIcon = styled.img`
   width: 60px;
@@ -104,7 +103,11 @@ const CrossIcon = styled.span`
 `;
 
 const Button = styled.button`
-
+  background-color: turquoise;
+  border: none; 
+  border-radius: 10px; 
+  color: black; 
+  padding: 15px 25px
 `;
 
 
@@ -198,16 +201,18 @@ const HomePage = () => {
         </WeatherContainer>
       )}
       {forecast.length > 0 && (
-        <ForecastContainer>
+        <ForecastGrid>
           {forecast.map((day) => (
-            <div key={day.valid_date}>
+            <ForecastContainer key={day.valid_date}>
               <h3>{day.valid_date}</h3>
-              <p>Temperature: {day.min_temp}°C - {day.max_temp}°C</p>
+              <WeatherIcon src={`/icons/${weather.weather.icon}.png`} alt="Icon" />
+              <p>Temperature: High: {day.min_temp}°C, Low: {day.max_temp}°C</p>
+              {/* add option to switch between C and F */}
               <p>Humidity: {day.rh}%</p>
               <p>Description: {day.weather.description}</p>
-            </div>
+            </ForecastContainer>
           ))}
-        </ForecastContainer>
+        </ForecastGrid>
       )}
     </div>
   );
