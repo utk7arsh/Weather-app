@@ -33,18 +33,19 @@ const WeatherContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin: 0 auto;
   margin-top: 20px;
-  padding: 30px;
+  padding: 80px;
+  padding-top: 60px;
   border-radius: 15px;
   background-color: #1e6cff;
   color: white;
   width: 300px;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   transition: 0.3s;
-  font-family: 'Poppins', sans-serif;
-
+  font-family: 'Open Sans', sans-serif;
   &:hover {
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.7);
   }
 `;
 
@@ -53,6 +54,24 @@ const WeatherIcon = styled.img`
   height: 60px;
 `;
 
+const ErrorContainer = styled.div`
+display: flex;
+align-items: center;
+justify-content: center;
+margin-top: 20px;
+`;
+
+const ErrorMessage = styled.div`
+display: flex;
+align-items: center;
+justify-content: center;
+padding: 10px;
+border-radius: 5px;
+background-color: #f36565;
+color: white;
+font-weight: bold;
+font-family: 'Open Sans', sans-serif;
+`;
 
 const HomePage = () => {
   const [city, setCity] = useState('');
@@ -85,7 +104,6 @@ const HomePage = () => {
     }
   };
 
-  console.log(weather.weather.icon);
   return (
     <div>
       <TitleWrapper>
@@ -103,14 +121,21 @@ const HomePage = () => {
           <button type="submit">Get Weather</button>
         </form>
       </InputWrapper>
-      {error && <p>{error}</p>}
+      {error && (
+      <ErrorContainer>
+        <ErrorMessage>
+          {error}
+          {/* <CrossIcon>&times;</CrossIcon> */}
+        </ErrorMessage>
+      </ErrorContainer>
+    )}
       {weather && (
         <WeatherContainer>
           <h2>{weather.city_name}, {weather.country_code}</h2>
+          <WeatherIcon src={`/icons/${weather.weather.icon}.png`} alt="Icon" />
           <p>Temperature: {weather.temp}°C</p>
           <p>Humidity: {weather.rh}%</p>
           <p>Description: {weather.weather.description}</p>
-          <WeatherIcon src={`/icons/${weather.weather.icon}.png`} alt="Icon" />
         </WeatherContainer>
       )}
     </div>
