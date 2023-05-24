@@ -8,6 +8,7 @@ const InputWrapper = styled.div`
   justify-content: center;
   align-items: center;
   padding-top: 50px;
+  padding-bottom: 50px;
 `;
 
 const WeatherCard = styled.div`
@@ -38,7 +39,7 @@ const WeatherContainer = styled.div`
   padding: 80px;
   padding-top: 60px;
   border-radius: 15px;
-  background-color: #1e6cff;
+  background-color: #0057FF;
   color: white;
   width: 300px;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
@@ -59,6 +60,7 @@ display: flex;
 align-items: center;
 justify-content: center;
 margin-top: 20px;
+padding-top: 20px;
 `;
 
 const ErrorMessage = styled.div`
@@ -66,12 +68,20 @@ display: flex;
 align-items: center;
 justify-content: center;
 padding: 10px;
-border-radius: 5px;
-background-color: #f36565;
+border-radius: 10px;
+background-color: #ff5353;
 color: white;
 font-weight: bold;
 font-family: 'Open Sans', sans-serif;
 `;
+
+const CrossIcon = styled.span`
+  margin-left: 5px;
+  margin-right: 10px;
+  font-size: 26px;
+  font-weight: bold;
+`;
+
 
 const HomePage = () => {
   const [city, setCity] = useState('');
@@ -124,9 +134,9 @@ const HomePage = () => {
       {error && (
       <ErrorContainer>
         <ErrorMessage>
+        <CrossIcon>&times;</CrossIcon> 
           {error}
-          {/* <CrossIcon>&times;</CrossIcon> */}
-        </ErrorMessage>
+          </ErrorMessage>
       </ErrorContainer>
     )}
       {weather && (
