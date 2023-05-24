@@ -28,6 +28,32 @@ const Title = styled.h1`
   font-family: 'Poppins', sans-serif;
 `;
 
+const WeatherContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  padding: 30px;
+  border-radius: 15px;
+  background-color: #1e6cff;
+  color: white;
+  width: 300px;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  font-family: 'Poppins', sans-serif;
+
+  &:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  }
+`;
+
+const WeatherIcon = styled.img`
+  width: 60px;
+  height: 60px;
+`;
+
+
 const HomePage = () => {
   const [city, setCity] = useState('');
   const [weather, setWeather] = useState(null);
@@ -43,6 +69,7 @@ const HomePage = () => {
       }
 
       const weatherData = await res.json();
+      console.log(weatherData);
       if (city.trim() === '') {
         setError('Please enter a city');
         throw new Error('Empty Input');
@@ -58,7 +85,7 @@ const HomePage = () => {
     }
   };
 
-
+  console.log(weather.weather.icon);
   return (
     <div>
       <TitleWrapper>
@@ -78,32 +105,18 @@ const HomePage = () => {
       </InputWrapper>
       {error && <p>{error}</p>}
       {weather && (
-        <WeatherCard>
+        <WeatherContainer>
           <h2>{weather.city_name}, {weather.country_code}</h2>
           <p>Temperature: {weather.temp}°C</p>
           <p>Humidity: {weather.rh}%</p>
           <p>Description: {weather.weather.description}</p>
-        </WeatherCard>
+          <WeatherIcon src={`/icons/${weather.weather.icon}.png`} alt="Icon" />
+        </WeatherContainer>
       )}
     </div>
   );
+  
 };
 
 export default HomePage;
 
-
-
-
-// import Link from 'next/link'
-// import Layout from '../components/Layout'
-
-// const IndexPage = () => (
-//   <Layout title="Home | Next.js + TypeScript Example">
-//     <h1>Hello Next.js 👋</h1>
-//     <p>
-//       <Link href="/about">About</Link>
-//     </p>
-//   </Layout>
-// )
-
-// export default IndexPage
