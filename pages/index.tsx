@@ -50,6 +50,27 @@ const WeatherContainer = styled.div`
   }
 `;
 
+const ForecastContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  margin-top: 20px;
+  padding: 80px;
+  padding-top: 60px;
+  border-radius: 15px;
+  background-color: #0057FF;
+  color: white;
+  width: 300px;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  font-family: 'Open Sans', sans-serif;
+  &:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.7);
+  }
+  `;
+
 const WeatherIcon = styled.img`
   width: 60px;
   height: 60px;
@@ -82,11 +103,16 @@ const CrossIcon = styled.span`
   font-weight: bold;
 `;
 
+const Button = styled.button`
+
+`;
+
 
 const HomePage = () => {
   const [city, setCity] = useState('');
   const [weather, setWeather] = useState(null);
   const [error, setError] = useState('');
+  const [forecast, setForecast] = useState([]);
 
   const fetchWeather = async (e) => {
     e.preventDefault();
@@ -110,6 +136,28 @@ const HomePage = () => {
       setError('');
     } catch (err) {
       setWeather(null);
+      setError(err.message);
+    }
+  };
+
+  const fetchForecast = async () => {
+    const url = `https://api.weatherbit.io/v2.0/forecast/daily?city=${city}&days=7&key=02525ccb316248bba62eb2e25911b795`;
+    try {
+      const res = await fetch(url);
+      if (res.status === 204) {
+        setError('Please enter a city');
+        throw new Error('City not found');
+      }
+
+      const forecastData = await res.json();
+      console.log(forecastData);
+      if (!forecastData.data || forecastData.data.length === 0) {
+        throw new Error('Failed to fetch forecast data');
+      }
+      setForecast(forecastData.data);
+      setError('');
+    } catch (err) {
+      setForecast([]);
       setError(err.message);
     }
   };
@@ -146,7 +194,20 @@ const HomePage = () => {
           <p>Temperature: {weather.temp}°C</p>
           <p>Humidity: {weather.rh}%</p>
           <p>Description: {weather.weather.description}</p>
+          <Button onClick={fetchForecast}>View Forecast for Next 7 Days</Button>
         </WeatherContainer>
+      )}
+      {forecast.length > 0 && (
+        <ForecastContainer>
+          {forecast.map((day) => (
+            <div key={day.valid_date}>
+              <h3>{day.valid_date}</h3>
+              <p>Temperature: {day.min_temp}°C - {day.max_temp}°C</p>
+              <p>Humidity: {day.rh}%</p>
+              <p>Description: {day.weather.description}</p>
+            </div>
+          ))}
+        </ForecastContainer>
       )}
     </div>
   );
