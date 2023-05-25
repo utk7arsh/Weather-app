@@ -1,4 +1,3 @@
-import Head from 'next/head';
 import { useState } from 'react';
 import styled from 'styled-components';
 
@@ -9,13 +8,6 @@ const InputWrapper = styled.div`
   align-items: center;
   padding-top: 50px;
   padding-bottom: 50px;
-`;
-
-const Form = styled.form`
-`;
-
-const WeatherCard = styled.div`
-  margin: 10px;
 `;
 
 const TitleWrapper = styled.div`
@@ -154,7 +146,7 @@ const HomePage = () => {
       }
       setWeather(weatherData.data[0]);
       setError('');
-      setShowForecast(false); // Reset the forecast state when weather is fetched
+      setShowForecast(false);
     } catch (err) {
       setWeather(null);
       setError(err.message);
@@ -177,7 +169,7 @@ const HomePage = () => {
       }
       setForecast(forecastData.data);
       setError('');
-      setShowForecast(true); // Set the forecast state to true after fetching forecast data
+      setShowForecast(true); 
     } catch (err) {
       setForecast([]);
       setError(err.message);
@@ -219,14 +211,14 @@ const HomePage = () => {
           <p>Temperature: {weather.temp}°C</p>
           <p>Humidity: {weather.rh}%</p>
           <p>Description: {weather.weather.description}</p>
-          {!showForecast && ( // Render the button only if forecast is not fetched
+          {!showForecast && ( // Render the button
             <Button onClick={handleForecastButtonClick}>
               View Forecast for Next 7 Days
             </Button>
           )}
         </WeatherContainer>
       )}
-      {showForecast && forecast.length > 0 && ( // Render the forecast only if showForecast is true and forecast data exists
+      {showForecast && forecast.length > 0 && ( // Render the forecast 
         <ForecastGrid>
           {forecast.map((day) => (
             <ForecastContainer key={day.valid_date}>
