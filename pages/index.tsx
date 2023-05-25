@@ -21,6 +21,7 @@ const WeatherCard = styled.div`
 const TitleWrapper = styled.div`
   background-color: #1e6cff;
   padding: 30px;
+  width: 100%;
 `;
 
 const Title = styled.h1`
@@ -55,17 +56,32 @@ const WeatherContainer = styled.div`
 
 const ForecastGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+  grid-auto-rows: min-content;
+  gap: 10px;
   justify-items: center;
-  align-items: center;
+  align-items: start;
   margin-top: 20px;
 `;
 
-const ForecastContainer = styled(WeatherContainer)`
-  display: flex;
-  flex-direction: column;
-  background-color: #3DD0FF;
+const ForecastContainer = styled.div`
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+margin-top: 30px;
+padding: 55px;
+padding-top: 50px;
+border-radius: 15px;
+color: white;
+width: 250px;
+box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+transition: 0.3s;
+font-family: 'Open Sans', sans-serif;
+&:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.7);
+}
+background-color: #3DD0FF;
 `;
 
 
@@ -116,6 +132,7 @@ const HomePage = () => {
   const [weather, setWeather] = useState(null);
   const [error, setError] = useState('');
   const [forecast, setForecast] = useState([]);
+  const [showForecast, setShowForecast] = useState(false); // Track whether forecast has been fetched
 
   const fetchWeather = async (e) => {
     e.preventDefault();
@@ -135,8 +152,9 @@ const HomePage = () => {
       if (!weatherData.data || weatherData.data.length === 0) {
         throw new Error('Failed to fetch weather data');
       }
-      setWeather(weatherData.data[0]); 
+      setWeather(weatherData.data[0]);
       setError('');
+      setShowForecast(false); // Reset the forecast state when weather is fetched
     } catch (err) {
       setWeather(null);
       setError(err.message);
@@ -159,10 +177,15 @@ const HomePage = () => {
       }
       setForecast(forecastData.data);
       setError('');
+      setShowForecast(true); // Set the forecast state to true after fetching forecast data
     } catch (err) {
       setForecast([]);
       setError(err.message);
     }
+  };
+
+  const handleForecastButtonClick = () => {
+    fetchForecast();
   };
 
   return (
@@ -177,19 +200,18 @@ const HomePage = () => {
             value={city}
             onChange={(e) => setCity(e.target.value)}
             placeholder="Enter city name..."
-            
           />
           <button type="submit">Get Weather</button>
         </form>
       </InputWrapper>
       {error && (
-      <ErrorContainer>
-        <ErrorMessage>
-        <CrossIcon>&times;</CrossIcon> 
-          {error}
+        <ErrorContainer>
+          <ErrorMessage>
+            <CrossIcon>&times;</CrossIcon>
+            {error}
           </ErrorMessage>
-      </ErrorContainer>
-    )}
+        </ErrorContainer>
+      )}
       {weather && (
         <WeatherContainer>
           <h2>{weather.city_name}, {weather.country_code}</h2>
@@ -197,17 +219,21 @@ const HomePage = () => {
           <p>Temperature: {weather.temp}°C</p>
           <p>Humidity: {weather.rh}%</p>
           <p>Description: {weather.weather.description}</p>
-          <Button onClick={fetchForecast}>View Forecast for Next 7 Days</Button>
+          {!showForecast && ( // Render the button only if forecast is not fetched
+            <Button onClick={handleForecastButtonClick}>
+              View Forecast for Next 7 Days
+            </Button>
+          )}
         </WeatherContainer>
       )}
-      {forecast.length > 0 && (
+      {showForecast && forecast.length > 0 && ( // Render the forecast only if showForecast is true and forecast data exists
         <ForecastGrid>
           {forecast.map((day) => (
             <ForecastContainer key={day.valid_date}>
               <h3>{day.valid_date}</h3>
-              <WeatherIcon src={`/icons/${weather.weather.icon}.png`} alt="Icon" />
-              <p>Temperature: High: {day.min_temp}°C, Low: {day.max_temp}°C</p>
-              {/* add option to switch between C and F */}
+              <WeatherIcon src={`/icons/${day.weather.icon}.png`} alt="Icon" />
+              <p>Temperature: </p>
+              <p>High: {day.max_temp}°C, Low: {day.min_temp}°C</p>
               <p>Humidity: {day.rh}%</p>
               <p>Description: {day.weather.description}</p>
             </ForecastContainer>
@@ -216,7 +242,6 @@ const HomePage = () => {
       )}
     </div>
   );
-  
 };
 
 export default HomePage;
