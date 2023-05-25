@@ -8,7 +8,45 @@ const InputWrapper = styled.div`
   align-items: center;
   padding-top: 50px;
   padding-bottom: 50px;
+  margin: 10px;
+  padding-bottom: 20px;
 `;
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #f0f0f0;
+`;
+
+
+const Input = styled.input`
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+  font-size: 16px;
+  color: #333;
+`;
+
+const FormButton = styled.button`
+  background-color: turquoise;
+  border: none; 
+  border-radius: 25px; 
+  color: black;
+  padding: 12px 15px;
+  font-weight: bold;
+  box-shadow: 0 0 10px rgba(64, 224, 208, 0.5);
+  transition: box-shadow 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 0 20px rgba(64, 224, 208, 0.9);
+  } 
+`;
+
 
 const TitleWrapper = styled.div`
   background-color: #1e6cff;
@@ -97,9 +135,6 @@ const ForecastContainer = styled.div`
 };
 `;
 
-
-
-
 const WeatherIcon = styled.img`
   width: 60px;
   height: 60px;
@@ -179,6 +214,7 @@ const HomePage = () => {
       setShowForecast(false);
     } catch (err) {
       setWeather(null);
+      setForecast([]);
       setError(err.message);
     }
   };
@@ -201,6 +237,7 @@ const HomePage = () => {
       setError('');
       setShowForecast(true); 
     } catch (err) {
+      setWeather(null);
       setForecast([]);
       setError(err.message);
     }
@@ -224,17 +261,18 @@ const HomePage = () => {
       <TitleWrapper>
         <Title>Weather App</Title>
       </TitleWrapper>
-      <ToggleButton onClick={toggleUnit}>Units (°{unit})</ToggleButton>
+      <ToggleButton onClick={toggleUnit}> Unit (°{unit})</ToggleButton>
       <InputWrapper>
-        <form onSubmit={fetchWeather}>
-          <input
+        <Form onSubmit={fetchWeather}>
+          <Input
             type="text"
             value={city}
             onChange={(e) => setCity(e.target.value)}
             placeholder="Enter city name..."
           />
-          <button type="submit">Get Weather</button>
-        </form>
+          <FormButton type="submit">Get Current Weather</FormButton>
+        </Form>
+
       </InputWrapper>
       {error && (
         <ErrorContainer>
