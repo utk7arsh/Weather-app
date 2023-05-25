@@ -25,6 +25,22 @@ const Title = styled.h1`
   font-family: 'Poppins', sans-serif;
 `;
 
+const ToggleButton = styled.button`
+  background-color: turquoise;
+  border: none;
+  border-radius: 10px;
+  color: black;
+  padding: 10px 15px;
+  margin-right: auto;
+  font-weight: bold;
+  box-shadow: 0 0 10px rgba(64, 224, 208, 0.5);
+  transition: box-shadow 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 0 20px rgba(64, 224, 208, 0.9);
+  }
+`;
+
 const WeatherContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -120,8 +136,15 @@ const Button = styled.button`
   background-color: turquoise;
   border: none; 
   border-radius: 10px; 
-  color: black; 
-  padding: 15px 25px
+  color: black;
+  padding: 15px 25px;
+  font-weight: bold;
+  box-shadow: 0 0 10px rgba(64, 224, 208, 0.5);
+  transition: box-shadow 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 0 20px rgba(64, 224, 208, 0.9);
+  } 
 `;
 
 
@@ -130,7 +153,8 @@ const HomePage = () => {
   const [weather, setWeather] = useState(null);
   const [error, setError] = useState('');
   const [forecast, setForecast] = useState([]);
-  const [showForecast, setShowForecast] = useState(false); // Track whether forecast has been fetched
+  const [showForecast, setShowForecast] = useState(false); 
+  const [unit, setUnit] = useState('C');
 
   const fetchWeather = async (e) => {
     e.preventDefault();
@@ -186,11 +210,21 @@ const HomePage = () => {
     fetchForecast();
   };
 
+  const toggleUnit = () => {
+    setUnit(unit === 'C' ? 'F' : 'C');
+  };
+
+  const convertToFahrenheit = (celsius) => {
+    return ((celsius * 9) / 5 + 32).toFixed(2);
+  };
+
+
   return (
     <div>
       <TitleWrapper>
         <Title>Weather App</Title>
       </TitleWrapper>
+      <ToggleButton onClick={toggleUnit}>Units (°{unit})</ToggleButton>
       <InputWrapper>
         <form onSubmit={fetchWeather}>
           <input
@@ -214,7 +248,7 @@ const HomePage = () => {
         <WeatherContainer>
           <h2>{weather.city_name}, {weather.country_code}</h2>
           <WeatherIcon src={`/icons/${weather.weather.icon}.png`} alt="Icon" />
-          <p>Temperature: {weather.temp}°C</p>
+          <p>Temperature: {unit === 'C' ? weather.temp : convertToFahrenheit(weather.temp)}°{unit}</p>
           <p>Humidity: {weather.rh}%</p>
           <p>Description: {weather.weather.description}</p>
           {!showForecast && ( // Render the button
@@ -231,7 +265,7 @@ const HomePage = () => {
               <h3>{day.valid_date}</h3>
               <WeatherIcon src={`/icons/${day.weather.icon}.png`} alt="Icon" />
               <p>Temperature: </p>
-              <p>High: {day.max_temp}°C, Low: {day.min_temp}°C</p>
+              <p>High: {unit === 'C' ? day.max_temp : convertToFahrenheit(day.max_temp)}°{unit}, Low: {unit === 'C' ? day.min_temp : convertToFahrenheit(day.min_temp)}°{unit}</p>
               <p>Humidity: {day.rh}%</p>
               <p>Description: {day.weather.description}</p>
             </ForecastContainer>
