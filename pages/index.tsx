@@ -161,8 +161,8 @@ font-family: 'Open Sans', sans-serif;
 `;
 
 const CrossIcon = styled.span`
-  margin-left: 5px;
-  margin-right: 10px;
+  margin-left: 2px;
+  margin-right: 5px;
   font-size: 26px;
   font-weight: bold;
 `;

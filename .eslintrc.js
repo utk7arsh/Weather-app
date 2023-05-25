@@ -1,21 +1,27 @@
 module.exports = {
-    root: true,
-    parserOptions: {
-      ecmaVersion: 2021,
-      sourceType: 'module',
-      ecmaFeatures: {
-        jsx: true,
+  root: true,
+  parser: '@typescript-eslint/parser',
+  plugins: ['react', 'react-hooks'],
+  extends: [
+    'eslint:recommended',
+    'plugin:react/recommended',
+    'plugin:react-hooks/recommended',
+    'next',
+  ],
+  rules: {
+    // Customize ESLint rules as per your requirements
+    'react/react-in-jsx-scope': 'off',
+    'react/prop-types': 'off',
+    'react/jsx-props-no-spreading': 'off',
+    'react/jsx-filename-extension': [
+      'error',
+      {
+        extensions: ['.jsx', '.tsx'],
       },
-    },
-    env: {
-      browser: true,
-      node: true,
-    },
-    extends: ['eslint:recommended', 'plugin:react/recommended'],
-    plugins: ['react'],
-    rules: {
-      // Add any custom rules or override default rules here
-      'react/jsx-uses-react': 'error',
-    },
-  };
-  
+    ],
+    'react/jsx-uses-react': 'off',
+    'react-hooks/rules-of-hooks': 'error',
+    'react-hooks/exhaustive-deps': 'warn',
+    // Add any other custom rules or overrides here
+  },
+};
