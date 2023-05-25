@@ -57,24 +57,30 @@ const ForecastGrid = styled.div`
 `;
 
 const ForecastContainer = styled.div`
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-margin-top: 30px;
-padding: 55px;
-padding-top: 50px;
-border-radius: 15px;
-color: white;
-width: 250px;
-box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-transition: 0.3s;
-font-family: 'Open Sans', sans-serif;
-&:hover {
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.7);
-}
-background-color: #3DD0FF;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+  padding: 55px;
+  padding-top: 50px;
+  border-radius: 15px;
+  color: white;
+  width: 250px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  font-family: 'Open Sans', sans-serif;
+  &:hover {
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.7);
+  }
+  background-color: #3dd0ff;
+  height: 300px; /* Adjust the height as needed */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+};
 `;
+
 
 
 
