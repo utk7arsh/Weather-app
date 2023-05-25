@@ -11,16 +11,16 @@ This is built on integration of TypeScript into Next.js. I used WeatherBit becau
 
 ## Getting Started
 
+``` bash
+git clone https://github.com/utk7arsh/Weather-app.git
 ```
+``` bash
 npm install
-```
-``` 
 npm run build 
-```
-```
 npm run start
 ```
-This compiles, builds, and executes the Next Project for use. 
+
+This compiles, builds, and executes the Next Project for use. You can run the application on `http://localhost:3000/`
 
 
 ## Features
@@ -30,11 +30,13 @@ This compiles, builds, and executes the Next Project for use.
 - Weatherbit.io API
 - Styled Components
 - Styled Icons
+- Testing using Jest
+- Linting using ESLint
 
 ## Responsive Features
-- Retrieve current weather (temperature, humidity, and weather description of any city)
-- Get the weather forcast for next 7 days in identical format.
-- Change Units between Celcius and Fahrenheit 
+- Retrieve current weather (temperature, humidity, and weather description) of any city.
+- Get the weather forcast for next 7 days in the identical format as current weather.
+- Change Units between Celcius and Fahrenheit.
 
 
 Have fun with the web page and please feel free to [contact](mailto:utkarshlal@gmail.com) me for any suggestions. 

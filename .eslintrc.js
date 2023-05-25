@@ -8,8 +8,13 @@ module.exports = {
     'plugin:react-hooks/recommended',
     'next',
   ],
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "node": true,
+    "jest": true
+  },
   rules: {
-    // Customize ESLint rules as per your requirements
     'react/react-in-jsx-scope': 'off',
     'react/prop-types': 'off',
     'react/jsx-props-no-spreading': 'off',
@@ -22,6 +27,5 @@ module.exports = {
     'react/jsx-uses-react': 'off',
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
-    // Add any other custom rules or overrides here
   },
 };
